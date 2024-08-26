@@ -14,22 +14,22 @@ import numpy as np
 from DataLoad.DataLoad import SetSplit, LoadNirtest
 from Preprocessing.Preprocessing import Preprocessing
 from WaveSelect.WaveSelcet import SpctrumFeatureSelcet
-# from Plot.SpectrumPlot import plotspc
+from Plot.SpectrumPlot import plotspc
 # from Plot.SpectrumPlot import ClusterPlot
 from Simcalculation.SimCa import Simcalculation
 from Clustering.Cluster import Cluster
 from Regression.Rgs import QuantitativeAnalysis
 from Classification.Cls import QualitativeAnalysis
 
-#光谱聚类分析
+# Spectral clustering analysis
 def SpectralClusterAnalysis(data, label, ProcessMethods, FslecetedMethods, ClusterMethods):
     """
-     :param data: shape (n_samples, n_features), 光谱数据
-     :param label: shape (n_samples, ), 光谱数据对应的标签(理化性质)
-     :param ProcessMethods: string, 预处理的方法, 具体可以看预处理模块
-     :param FslecetedMethods: string, 光谱波长筛选的方法, 提供UVE、SPA、Lars、Cars、Pca
-     :param ClusterMethods : string, 聚类的方法，提供Kmeans聚类、FCM聚类
-     :return: Clusterlabels: 返回的隶属矩阵
+     :param data: shape (n_samples, n_features), spectral data
+     :param label: shape (n_samples, ), labels corresponding to the spectral data (physical and chemical properties)
+     :param ProcessMethods: string, string, preprocessing method; refer to the preprocessing module for details
+     :param FslecetedMethods: string,  string, spectral wavelength selection method; options include UVE, SPA, Lars, Cars, Pca
+     :param ClusterMethods : string, clustering method; options include K-means clustering, FCM clustering
+     :return: Clusterlabels: the returned membership matrix
 
      """
     ProcesedData = Preprocessing(ProcessMethods, data)
@@ -38,19 +38,19 @@ def SpectralClusterAnalysis(data, label, ProcessMethods, FslecetedMethods, Clust
     #ClusterPlot(data, Clusterlabels)
     return Clusterlabels
 
-# 光谱定量分析
+# Spectral quantitative analysis
 def SpectralQuantitativeAnalysis(data, label, ProcessMethods, FslecetedMethods, SetSplitMethods, model):
 
     """
-    :param data: shape (n_samples, n_features), 光谱数据
-    :param label: shape (n_samples, ), 光谱数据对应的标签(理化性质)
-    :param ProcessMethods: string, 预处理的方法, 具体可以看预处理模块
-    :param FslecetedMethods: string, 光谱波长筛选的方法, 提供UVE、SPA、Lars、Cars、Pca
-    :param SetSplitMethods : string, 划分数据集的方法, 提供随机划分、KS划分、SPXY划分
-    :param model : string, 定量分析模型, 包括ANN、PLS、SVR、ELM、CNN、SAE等，后续会不断补充完整
-    :return: Rmse: float, Rmse回归误差评估指标
-             R2: float, 回归拟合,
-             Mae: float, Mae回归误差评估指标
+    :param data: shape (n_samples, n_features), spectral data
+    :param label: shape (n_samples, ), labels corresponding to the spectral data (physical and chemical properties)
+    :param ProcessMethods: string, preprocessing method; refer to the preprocessing module for details
+    :param FslecetedMethods: string, spectral wavelength selection method; options include UVE, SPA, Lars, Cars, Pca
+    :param SetSplitMethods : string, dataset splitting method; options include random split, KS split, SPXY split
+    :param model : string, quantitative analysis model; includes ANN, PLS, SVR, ELM, CNN, SAE, etc. This list will be updated over time
+    :return: Rmse: float, RMSE regression error evaluation metric
+             R2: float, regression fit
+             Mae: float, MAE regression error evaluation metric
     """
     ProcesedData = Preprocessing(ProcessMethods, data)
     FeatrueData, labels = SpctrumFeatureSelcet(FslecetedMethods, ProcesedData, label)
@@ -58,17 +58,17 @@ def SpectralQuantitativeAnalysis(data, label, ProcessMethods, FslecetedMethods, 
     Rmse, R2, Mae = QuantitativeAnalysis(model, X_train, X_test, y_train, y_test )
     return Rmse, R2, Mae
 
-# 光谱定性分析
+# Spectral Qualitative Analysis
 def SpectralQualitativeAnalysis(data, label, ProcessMethods, FslecetedMethods, SetSplitMethods, model):
 
     """
-    :param data: shape (n_samples, n_features), 光谱数据
-    :param label: shape (n_samples, ), 光谱数据对应的标签(理化性质)
-    :param ProcessMethods: string, 预处理的方法, 具体可以看预处理模块
-    :param FslecetedMethods: string, 光谱波长筛选的方法, 提供UVE、SPA、Lars、Cars、Pca
-    :param SetSplitMethods : string, 划分数据集的方法, 提供随机划分、KS划分、SPXY划分
-    :param model : string, 定性分析模型, 包括ANN、PLS_DA、SVM、RF、CNN、SAE等，后续会不断补充完整
-    :return: acc： float, 分类准确率
+    :param data: shape (n_samples, n_features), spectral data
+    :param label: shape (n_samples, ), labels corresponding to spectral data (physical and chemical properties)
+    :param ProcessMethods: string, preprocessing methods, refer to the preprocessing module for details
+    :param FslecetedMethods: string, methods for spectral wavelength selection, options include UVE, SPA, Lars, Cars, Pca
+    :param SetSplitMethods: string, methods for dataset splitting, options include random splitting, KS splitting, SPXY splitting
+    :param model: string, qualitative analysis models, including ANN, PLS_DA, SVM, RF, CNN, SAE, etc., with more to be added
+    :return: acc: float, classification accuracy
     """
 
     ProcesedData = Preprocessing(ProcessMethods, data)
@@ -88,37 +88,37 @@ def SpectralQualitativeAnalysis(data, label, ProcessMethods, FslecetedMethods, S
 
 if __name__ == '__main__':
 
-    # ## 载入原始数据并可视化
+    # ## Load raw data and visualize
     # data1, label1 = LoadNirtest('Cls')
-    # #plotspc(data1, "raw specturm")
-    # # 光谱定性分析演示
-    # # 示意1: 预处理算法:MSC , 波长筛选算法: 不使用, 全波长建模, 数据集划分:随机划分, 定性分析模型: RF
+    # #plotspc(data1, "raw spectrum")
+    # # Spectral Qualitative Analysis demonstration
+    # # Example 1: Preprocessing algorithm: MSC, Wavelength selection algorithm: None, Full wavelength modeling, Dataset splitting: Random splitting, Qualitative analysis model: RF
     # acc = SpectralQualitativeAnalysis(data1, label1, "MSC", "Lars", "random", "PLS_DA")
     # print("The acc:{} of result!".format(acc))
 
 
-    ## 载入原始数据并可视化
+   ## Load raw data and visualize
     data2, label2 = LoadNirtest('Rgs')
-    #plotspc(data2, "raw specturm")
-    # 光谱定量分析演示
-    # 示意1: 预处理算法:MSC , 波长筛选算法: Uve, 数据集划分:KS, 定性分量模型: SVR
+    plotspc(data2, "raw specturm")
+    # Spectral Quantitative Analysis demonstration
+    # Example 1: Preprocessing algorithm: MSC, Wavelength selection algorithm: Uve, Dataset splitting: KS, Qualitative analysis model: SVR
     RMSE, R2, MAE = SpectralQuantitativeAnalysis(data2, label2, "None", "None", "random", "CNN")
     print("The RMSE:{} R2:{}, MAE:{} of result!".format(RMSE, R2, MAE))
 
 
 
-    # ## 光谱预处理并可视化
+      # ## Spectral preprocessing and visualization
     # method = "SNV"
     # Preprocessingdata = Preprocessing(method, data)
     # plotspc(Preprocessingdata, method)
-    # ## 波长特征筛选并可视化
+    # ## Wavelength feature selection and visualization
     # method = 'Uve'
     # SpectruSelected, y = SpctrumFeatureSelcet(method, data, label)
-    # print("全光谱数据维度")
+    # print("Full spectrum data dimensions")
     # print(len(data[0,:]))
-    # print("经过{}波长筛选后的数据维度".format(method))
+    # print("Data dimensions after {} wavelength selection".format(method))
     # print(len(SpectruSelected[0, :]))
-    # # #划分数据集
+    # # # Split the dataset
     # X_train, X_test, y_train, y_test = SetSplit('spxy', SpectruSelected, y, 0.2, 123)
 
 

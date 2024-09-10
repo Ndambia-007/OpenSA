@@ -14,7 +14,7 @@
 from sklearn.model_selection import train_test_split
 import numpy as np
 
-#随机划分数据集
+#Randomly split the dataset.
 def random(data, label, test_ratio=0.2, random_state=123):
     """
     :param data: shape (n_samples, n_features)
@@ -31,7 +31,7 @@ def random(data, label, test_ratio=0.2, random_state=123):
 
     return X_train, X_test, y_train, y_test
 
-#利用SPXY算法划分数据集
+#Use the SPXY algorithm to split the dataset.
 def spxy(data, label, test_size=0.2):
     """
     :param data: shape (n_samples, n_features)
@@ -103,7 +103,7 @@ def spxy(data, label, test_size=0.2):
 
     return X_train, X_test, y_train, y_test
 
-#利用kennard-stone算法划分数据集
+#Use the Kennard-Stone algorithm to split the dataset.
 def ks(data, label, test_size=0.2):
     """
     :param data: shape (n_samples, n_features)
@@ -163,7 +163,7 @@ def ks(data, label, test_size=0.2):
 
     return X_train, X_test, y_train, y_test
 
-# 分别使用一个回归、一个分类的公开数据集做为example
+#Use the Kennard-Stone algorithm to split the dataset.
 def LoadNirtest(type):
 
     if type == "Rgs":

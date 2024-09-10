@@ -18,6 +18,7 @@ from WaveSelect.GA import GA
 from sklearn.model_selection import train_test_split
 
 def SpctrumFeatureSelcet(method, X, y):
+
     """
        :param method: 波长筛选/降维的方法，包括：Cars, Lars, Uve, Spa, Pca
        :param X: 光谱数据, shape (n_samples, n_features)
@@ -25,6 +26,7 @@ def SpctrumFeatureSelcet(method, X, y):
        :return: X_Feature： 波长筛选/降维后的数据, shape (n_samples, n_features)
                 y：光谱数据对应的标签, (n_samples，)
     """
+
     if method == "None":
         X_Feature = X
     elif method== "Cars":

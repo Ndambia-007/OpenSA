@@ -23,6 +23,7 @@ from Classification.Cls import QualitativeAnalysis
 
 # Spectral clustering analysis
 def SpectralClusterAnalysis(data, label, ProcessMethods, FslecetedMethods, ClusterMethods):
+
     """
      :param data: shape (n_samples, n_features), spectral data
      :param label: shape (n_samples, ), labels corresponding to the spectral data (physical and chemical properties)
@@ -58,6 +59,7 @@ def SpectralQuantitativeAnalysis(data, label, ProcessMethods, FslecetedMethods, 
     Rmse, R2, Mae = QuantitativeAnalysis(model, X_train, X_test, y_train, y_test )
     return Rmse, R2, Mae
 
+
 # Spectral Qualitative Analysis
 def SpectralQualitativeAnalysis(data, label, ProcessMethods, FslecetedMethods, SetSplitMethods, model):
 
@@ -68,7 +70,7 @@ def SpectralQualitativeAnalysis(data, label, ProcessMethods, FslecetedMethods, S
     :param FslecetedMethods: string, methods for spectral wavelength selection, options include UVE, SPA, Lars, Cars, Pca
     :param SetSplitMethods: string, methods for dataset splitting, options include random splitting, KS splitting, SPXY splitting
     :param model: string, qualitative analysis models, including ANN, PLS_DA, SVM, RF, CNN, SAE, etc., with more to be added
-    :return: acc: float, classification accuracy
+    :return: acc: float, classification accuracy 
     """
 
     ProcesedData = Preprocessing(ProcessMethods, data)

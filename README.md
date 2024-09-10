@@ -323,8 +323,7 @@ def Preprocessing(method, data):
 示意2：利用OpenSA实现SNV预处理
 
 ```python
-    #载入原始数据并可视化
-    data, label = LoadNirtest('Rgs')
+    #载入原始数据并可视化zx
     plotspc(data, "raw specturm")
     #光谱预处理并可视化
     method = "SNV"
